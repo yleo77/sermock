@@ -1,6 +1,6 @@
 const express = require('express');
 const low = require('lowdb');
-const fileSync = require('lowdb/lib/storages/file-sync')
+const fileSync = require('lowdb/lib/storages/file-sync');
 
 const middlewares = require('./libs/middlewares.js');
 const apiGenerator = require('./libs/api-generator.js');
@@ -13,13 +13,9 @@ let config = {};
 
 module.exports = {
 
-  // app: app,
-  // express: express,
-  config: function() {
+  express: express,
 
-  },
-  create: function(opts) {
-
+  create: function create(opts) {
     if (opts) {
       config = Object.assign({}, defaults, opts);
     }
@@ -32,10 +28,9 @@ module.exports = {
     }
 
     // apis 配置如果存在的话
-    Object.keys(config.apis).map((api) => {
-      app.use(api, function(req, res, next) {
-
-        let o = config.apis[api];
+    Object.keys(config.apis).forEach((api) => {
+      app.use(api, function middleware(req, res, next) {
+        const o = config.apis[api];
         let response;
         if (o[req.method]) {
           if (o[req.method] === '__REQ_QUERY__') {
@@ -54,22 +49,22 @@ module.exports = {
     if (config.db) {
       const db = low(config.db, {
         storage: {
-          read: fileSync.read
-        }
+          read: fileSync.read,
+        },
       });
 
       db.forEach((value, key) => {
         if (Array.isArray(value)) { // list, detail
           app.use(`/${key}`, apiGenerator(db, key));
         } else { // object, str? 直接返回
-          app.use(`/${key}`, function(req, res) {
+          app.use(`/${key}`, function middleware(req, res) {
             res.locals.data = value;
           });
         }
       }).value();
     }
 
-    app.use(function(req, res) {
+    app.use(function middleware(req, res) {
       if (!res.locals.data) {
         res.status(404);
         res.locals.data = {};
@@ -81,9 +76,9 @@ module.exports = {
 
     return app;
   },
-  start: function() {
+  start: function start() {
     app.listen(config.PORT, () => {
       console.log(`mock server is running at ${config.PORT}`);
     });
-  }
-}
+  },
+};

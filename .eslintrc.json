@@ -1,0 +1,15 @@
+{
+  "extends": "airbnb-base",
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+    "no-console": ["off"],
+    "prefer-arrow-callback": ["off"],
+    "no-use-before-define": ["off"],
+    "no-param-reassign": ["off"],
+    "no-underscore-dangle": ["off"],
+    "prefer-const": ["off"],
+    "object-shorthand": ["off"]
+  }
+}

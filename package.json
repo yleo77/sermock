@@ -4,6 +4,7 @@
   "description": "server mock for develop",
   "main": "index.js",
   "scripts": {
+    "lint": "./node_modules/.bin/eslint index.js libs/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ylep77@gmail.com",
@@ -15,5 +16,10 @@
     "express": "^4.15.3",
     "lowdb": "^0.16.2",
     "morgan": "^1.8.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.3.0"
   }
 }

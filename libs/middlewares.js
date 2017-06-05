@@ -1,16 +1,12 @@
 const morgan = require('morgan');
 const cors = require('cors');
 const errorhandler = require('errorhandler');
-const bodyParser = require('body-parser')
-
-module.exports = install;
-module.exports.responseByQuery = responseByQuery;
+const bodyParser = require('body-parser');
 
 function install(opts) {
+  opts = Object.assign({ nocache: true }, opts);
 
-  opts = Object.assign({nocache: true}, opts);
-
-  let ary = [];
+  const ary = [];
 
   // log
   ary.push(morgan('dev'));
@@ -23,7 +19,7 @@ function install(opts) {
   // body parse: application/x-www-form-urlencoded
   ary.push(bodyParser.urlencoded({ extended: false }));
 
-  if(opts.nocache) {
+  if (opts.nocache) {
     ary.push(nocache);
   }
 
@@ -32,9 +28,8 @@ function install(opts) {
 }
 
 function responseByQuery(req, res, next) {
-
   if (req.query._res && req.query._res === '__REQ_QUERY__') {
-    let o = Object.assign({}, req.query);
+    const o = Object.assign({}, req.query);
     delete o._res;
     res.jsonp(o);
     return;
@@ -48,3 +43,6 @@ function nocache(req, res, next) {
   res.setHeader('Expires', '0');
   next();
 }
+
+module.exports = install;
+module.exports.responseByQuery = responseByQuery;
