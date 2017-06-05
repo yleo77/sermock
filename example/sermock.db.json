@@ -1,0 +1,14 @@
+{
+  "detail": {
+    "id": 1,
+    "title": "bala",
+    "content": "Lorem ipsum dolor sit amet."
+  },
+  "list": [{
+    "id": 1,
+    "title": "bala"
+  },{
+    "id": 2,
+    "title": "foo"
+  }]
+}

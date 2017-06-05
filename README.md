@@ -32,7 +32,7 @@ mocker.create(config);
 mocker.start();
 ```
 
-The Db file Config, just an example
+The *db_file* Config, just an example
 
 ```json
 {
@@ -65,9 +65,6 @@ BTW, If you POST to `http://localhost:3002/bang?id=1&msg=cool` and you will get 
 ```
 
 One more thing, If you put `_res=__REQ_QUERY__` as a querystring, then you have the same effect.
-
-
-
 
 EOF
 
