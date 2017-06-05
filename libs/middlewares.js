@@ -4,8 +4,6 @@ const errorhandler = require('errorhandler');
 const bodyParser = require('body-parser');
 
 function install(opts) {
-  opts = Object.assign({ nocache: true }, opts);
-
   const ary = [];
 
   // log

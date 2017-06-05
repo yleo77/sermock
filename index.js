@@ -1,3 +1,5 @@
+const fs = require('fs');
+// const path = require('path');
 const express = require('express');
 const low = require('lowdb');
 const fileSync = require('lowdb/lib/storages/file-sync');
@@ -7,8 +9,7 @@ const apiGenerator = require('./libs/api-generator.js');
 const defaults = require('./libs/config.js');
 
 const app = express();
-app.use(middlewares());
-
+console.log();
 let config = {};
 
 module.exports = {
@@ -19,15 +20,16 @@ module.exports = {
     if (opts) {
       config = Object.assign({}, defaults, opts);
     }
+    app.use(middlewares(config));
 
-    // static 目录存在的话
+    // static dir config
     if (config.static.length) {
       config.static.forEach((dir) => {
         app.use(express.static(dir));
       });
     }
 
-    // apis 配置如果存在的话
+    // apis config
     Object.keys(config.apis).forEach((api) => {
       app.use(api, function middleware(req, res, next) {
         const o = config.apis[api];
@@ -46,22 +48,29 @@ module.exports = {
       });
     });
 
-    if (config.db) {
-      const db = low(config.db, {
-        storage: {
-          read: fileSync.read,
-        },
-      });
+    if (config.db_file) {
+      // config.db = path.resolve(config.db);
+      const isexist = fs.existsSync(config.db_file);
+      if (!isexist) {
+        console.log(`Warning: db file ${config.db_file} doesn't exist.`);
+      } else {
+        const db = low(config.db_file, {
+          storage: {
+            read: fileSync.read,
+          },
+        });
 
-      db.forEach((value, key) => {
-        if (Array.isArray(value)) { // list, detail
-          app.use(`/${key}`, apiGenerator(db, key));
-        } else { // object, str? 直接返回
-          app.use(`/${key}`, function middleware(req, res) {
-            res.locals.data = value;
-          });
-        }
-      }).value();
+        db.forEach((value, key) => {
+          if (Array.isArray(value)) { // list, detail
+            app.use(`/${key}`, apiGenerator(db, key));
+          } else { // object, str?
+            app.use(`/${key}`, function middleware(req, res, next) {
+              res.locals.data = value;
+              next();
+            });
+          }
+        }).value();
+      }
     }
 
     app.use(function middleware(req, res) {
