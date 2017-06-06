@@ -64,13 +64,7 @@ BTW, If you POST to `http://localhost:3002/bang?id=1&msg=cool` and you will get 
 {id: 1, msg: 'cool'}
 ```
 
-One more thing, If you put `_res=__REQ_QUERY__` as a querystring, then you have the same effect.
+* Response with querystring when you set `_res=__REQ_QUERY__` as a querystring;
+* Response the special status code when you set `_statusCode=XXX`, XXX is HTTP status code;
 
 EOF
-
-
-
-
-
-
-

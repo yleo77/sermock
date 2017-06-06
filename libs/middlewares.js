@@ -32,6 +32,12 @@ function responseByQuery(req, res, next) {
     res.jsonp(o);
     return;
   }
+
+  if (req.query._statusCode) {
+    let code = parseInt(req.query._statusCode, 10);
+    res.status(code).send('Response with the status code in querystring');
+    return;
+  }
   next();
 }
 
