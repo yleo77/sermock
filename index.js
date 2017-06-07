@@ -73,6 +73,10 @@ module.exports = {
       }
     }
 
+    return app;
+  },
+  start: function start() {
+
     app.use(function middleware(req, res) {
       if (!res.locals.data) {
         res.status(404);
@@ -83,9 +87,6 @@ module.exports = {
       res.jsonp(res.locals.data);
     });
 
-    return app;
-  },
-  start: function start() {
     app.listen(config.PORT, () => {
       console.log(`mock server is running at ${config.PORT}`);
     });

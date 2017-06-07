@@ -5,6 +5,13 @@
 module.exports = {
   nocache: false,
   static: ['./static'],
+  rewrite: [{
+    pattern: '/baz/list',
+    responder: '/list'
+  }, {
+    pattern: '/foo',
+    responder: '/echo'
+  }],
   apis: {
 
     // path
