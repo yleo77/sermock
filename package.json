@@ -1,6 +1,6 @@
 {
   "name": "sermock",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "server mock for develop",
   "main": "index.js",
   "scripts": {
