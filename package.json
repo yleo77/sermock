@@ -7,6 +7,7 @@
     "lint": "./node_modules/.bin/eslint index.js libs/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": "./bin/app",
   "author": "ylep77@gmail.com",
   "license": "MIT",
   "dependencies": {

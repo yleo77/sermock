@@ -56,9 +56,8 @@ function nocache(req, res, next) {
 
 function rewrite(config) {
   var router = express.Router();
-
-  console.log('url rewrite config: ');
-  console.log(config.rewrite);
+  // console.log('url rewrite config: ');
+  // console.log(config.rewrite);
   config.rewrite.forEach(function(rule) {
     const route = rule.pattern +
       (rule.pattern[rule.pattern.length - 1] === '/' ? '*' : '/*');

@@ -9,7 +9,7 @@ const apiGenerator = require('./libs/api-generator.js');
 const defaults = require('./libs/config.js');
 
 const app = express();
-console.log();
+// console.log();
 let config = {};
 
 module.exports = {
@@ -88,7 +88,7 @@ module.exports = {
     });
 
     app.listen(config.PORT, () => {
-      console.log(`mock server is running at ${config.PORT}`);
+      console.log(`mock server is running at http://localhost:${config.PORT}`);
     });
   },
 };

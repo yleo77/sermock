@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+const path = require('path');
+const fs = require('fs');
+const mocker = require('../index');
+
+const CONFIGNAME = 'sermock.config.js';
+const DBNAME = 'sermock.db.json';
+
+const basePath = process.cwd();
+
+const configPath = path.resolve(basePath, `./${CONFIGNAME}`);
+
+if (!fs.existsSync(configPath)) {
+  console.error(`没有找到 ${CONFIGNAME} 文件，程序退出。`);
+  process.exit(0);
+}
+
+const config = require(configPath);
+
+const dbName = config.db_file || DBNAME;
+
+const dbPath = path.resolve(basePath, `./${dbName}`);
+
+if (!fs.existsSync(dbName)) {
+  console.warn(`没有找到 ${CONFIGNAME} 文件，程序无法支持 restful`);
+}
+
+config.db_file = dbPath;
+mocker.create(config);
+
+mocker.start();
